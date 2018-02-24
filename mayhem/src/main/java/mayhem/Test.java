@@ -1,5 +1,8 @@
-import mayhem.classes.Album;
-import mayhem.classes.Band;
+package mayhem;
+
+import mayhem.WikiApi.parsing.BandParser;
+import mayhem.WikiApi.classes.Album;
+import mayhem.WikiApi.classes.Band;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,7 +19,7 @@ public class Test {
 
     public static void main(String [] args) throws IOException {
         for(String band : bands){
-            Band bandObject = Band.getBand(band);
+            Band bandObject = BandParser.getBand(band);
             for(Album alb : bandObject.getAlbums()){
                 int size = alb.getGenres().size();
                 //System.out.println(size);

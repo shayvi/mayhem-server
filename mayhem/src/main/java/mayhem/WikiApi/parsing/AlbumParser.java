@@ -1,22 +1,23 @@
-package parsing;
+package mayhem.WikiApi.parsing;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import mayhem.WikiApi.classes.Song;
+import mayhem.WikiApi.config.Config;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import mayhem.classes.Song;
-import mayhem.config.Config;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumParser {
 
     private Document albumDoc;
+    private String albumName;
 
-    public AlbumParser(String albumLink){
+    public AlbumParser(String albumName, String albumLink){
+        this.albumName = albumName;
         try {
             this.albumDoc = Jsoup.connect(albumLink).get();
         } catch (IOException e) {
@@ -116,7 +117,9 @@ public class AlbumParser {
         }
 
 
-        songs.add(Song.getSong(songName, Config.extractId(idString)));
+        songs.add(Song.getSong(Config.extractId(idString), songName, this.albumName));
         return songs;
     }
+
+
 }

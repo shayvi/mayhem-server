@@ -1,0 +1,9 @@
+package mayhem.MayhemApi.services;
+
+import mayhem.MayhemApi.classesForMayhemApi.Song;
+import java.util.List;
+
+public interface SongService {
+    void add(Song song);
+    List<Song> listSongs();
+}
