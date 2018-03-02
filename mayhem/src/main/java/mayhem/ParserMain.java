@@ -1,8 +1,5 @@
 package mayhem;
 
-import mayhem.WikiApi.parsing.BandParser;
-import mayhem.WikiApi.classes.Band;
-
 import java.io.IOException;
 
 public class ParserMain {
@@ -32,8 +29,8 @@ public class ParserMain {
     //private static final String BANDNAME = "linkin_park";
 
     public static void main(String [] args) throws IOException {
-        Band bandObject = BandParser.getBand(BANDNAME);
-        System.out.println(bandObject);
+//        Band bandObject = ParserController.getBand(BANDNAME);
+//        System.out.println(bandObject);
     }
 }
 

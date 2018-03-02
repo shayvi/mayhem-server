@@ -1,5 +1,7 @@
 package mayhem.WikiApi.parsing;
 
+import mayhem.WikiApi.classes.Album;
+import mayhem.WikiApi.classes.Band;
 import mayhem.WikiApi.classes.Song;
 import mayhem.WikiApi.config.Config;
 import org.jsoup.Jsoup;
@@ -14,16 +16,18 @@ import java.util.List;
 public class AlbumParser {
 
     private Document albumDoc;
-    private String albumName;
+    private Album album;
 
-    public AlbumParser(String albumName, String albumLink){
-        this.albumName = albumName;
+    public AlbumParser(String albumName, String albumLink, Band band){
+
         try {
             this.albumDoc = Jsoup.connect(albumLink).get();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        this.album = new Album(albumName,this.getAlbumYear(),this.getAlbumGenres(),band);
     }
 
 
@@ -117,9 +121,19 @@ public class AlbumParser {
         }
 
 
-        songs.add(Song.getSong(Config.extractId(idString), songName, this.albumName));
+        songs.add(Song.getSong(Config.extractId(idString), songName, this.album));
         return songs;
     }
+
+
+    public static Album getAlbum(String albumName, String albumLink, Band band){
+        AlbumParser parser = new AlbumParser(albumName, albumLink, band);
+
+        int year = parser.getAlbumYear();
+        List<String> genres = parser.getAlbumGenres();
+        return new Album(albumName, year, genres, band);
+    }
+
 
 
 }

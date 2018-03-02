@@ -5,13 +5,13 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlRootElement
-@XmlType(propOrder={"num", "name", "rate"})
+@XmlType(propOrder={"num", "name", "rate", "album"})
 public class Song {
 
     private String name;
     private int num;
     private int rate;
-    private String albumName;
+    private Album album;
 
     /**
      * an empty constructor for REST
@@ -20,15 +20,15 @@ public class Song {
 
     }
 
-    public Song(int num,String name, String albumName){
-        this(num, name,0,albumName);
+    public Song(int num,String name, Album album){
+        this(num, name,0,album);
     }
 
-    public Song(int num, String name, int rate, String albumName) {
+    public Song(int num, String name, int rate, Album album) {
         this.num = num;
         this.name = name;
         this.rate = rate;
-        this.albumName = albumName;
+        this.album = album;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class Song {
     /**
      * Song factory method
      */
-    public static Song getSong(int num, String name, String albumName){
-        return new Song(num, name, albumName);
+    public static Song getSong(int num, String name, Album album){
+        return new Song(num, name, album);
     }
 
     /* Getters and Setters */
@@ -68,12 +68,12 @@ public class Song {
         this.rate = rate;
     }
 
-    public String getAlbumName() {
-        return albumName;
+    public Album getAlbum() {
+        return album;
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
 	/* functions */

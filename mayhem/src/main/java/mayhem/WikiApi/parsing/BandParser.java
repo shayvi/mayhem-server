@@ -1,6 +1,8 @@
 package mayhem.WikiApi.parsing;
 
 import mayhem.WikiApi.classes.Album;
+import mayhem.WikiApi.classes.Band;
+import mayhem.WikiApi.classes.Song;
 import mayhem.WikiApi.config.Config;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,11 +16,11 @@ import java.util.List;
 public class BandParser {
 
     private Document bandDoc;
-    private String bandName;
+    private Band band;
 
     public BandParser(String bandName){
-        this.bandName = bandName;
         this.bandDoc = getBandDoc(bandName);
+        this.band = new Band(bandName,this.getOrigin());
     }
 
     /**
@@ -95,37 +97,6 @@ public class BandParser {
 
     /**
      *
-     * @return list of band albums
-     * @throws IOException
-     */
-    public List<Album> getAlbums() {
-
-        Album albumObject = null;
-        String albumName;
-        String albumLink;
-        List<Album> albums = new ArrayList<Album>();
-
-        Elements albumsElements = this.getAlbumsElements();
-
-        for(Element albumElement : albumsElements){
-            albumName = albumElement.text();
-            albumLink = Config.WIKIPEDIA + albumElement.attr("href");
-
-            //because there is a case that "Wikipedia does not have an article with this exact name"
-            try{
-                albumObject = ParserController.getAlbum(albumName, albumLink, this.bandName);
-            }
-            catch(NullPointerException e){};
-
-            albums.add(albumObject);
-        }
-
-        return albums;
-    }
-
-
-    /**
-     *
      * @return band albums Elements
      */
     private Elements getAlbumsElements(){
@@ -144,6 +115,62 @@ public class BandParser {
         albumsElements = albumsElements.not("a:contains(Studio albums)");
 
         return albumsElements;
+    }
+
+
+
+    /**
+     *
+     * @return list of band albums
+     * @throws IOException
+     */
+    public List<Album> getAlbums() {
+
+        Album albumObject = null;
+        String albumName;
+        String albumLink;
+        List<Album> albums = new ArrayList<Album>();
+
+        Elements albumsElements = this.getAlbumsElements();
+
+        for(Element albumElement : albumsElements){
+            albumName = albumElement.text();
+            albumLink = Config.WIKIPEDIA + albumElement.attr("href");
+//            albumLink.replaceAll("'","%27");
+
+            //because there is a case that "Wikipedia does not have an article with this exact name"
+            try{
+                albumObject = AlbumParser.getAlbum(albumName, albumLink, this.band);
+            }
+            catch(NullPointerException e){};
+
+            albums.add(albumObject);
+        }
+        return albums;
+    }
+
+    public List<Song> getSongs() {
+
+        String albumName;
+        String albumLink;
+        AlbumParser albumParser;
+        List<Song> songs = new ArrayList<Song>();
+
+        Elements albumsElements = this.getAlbumsElements();
+
+        for(Element albumElement : albumsElements){
+            albumName = albumElement.text();
+            albumLink = Config.WIKIPEDIA + albumElement.attr("href");
+
+            //because there is a case that "Wikipedia does not have an article with this exact name"
+            try{
+                albumParser = new AlbumParser(albumName,albumLink,this.band);
+                songs.addAll(albumParser.getAlbumSongs());
+            }
+            catch(NullPointerException e){};
+        }
+
+        return songs;
     }
 
 

@@ -6,14 +6,13 @@ import java.util.List;
 
 
 @XmlRootElement
-@XmlType(propOrder={"name", "year", "genres", "songs", "bandName"})
+@XmlType(propOrder={"name", "year", "genres", "bandName"})
 public class Album {
 
     private String name;
     private int year;
     private List<String> genres;
-    private List<Song> songs;
-    private String bandName;
+    private Band band;
 
     /**
      * an empty constructor for REST
@@ -27,27 +26,25 @@ public class Album {
      * @param name
      * @param year
      * @param genres
-     * @param songs
-     * @param bandName
+     * @param band
      */
-    public Album(String name, int year, List<String> genres, List<Song> songs, String bandName) {
+    public Album(String name, int year, List<String> genres, Band band) {
         this.name = name;
         this.year = year;
         this.genres = genres;
-        this.songs = songs;
-        this.bandName = bandName;
+        this.band = band;
     }
 
 
-    @Override
-    public String toString() {
-        String s = bandName + ": " + name + " [year=" + year + ", genres=" + genres + "]" +"\n";
-        for(Song song : songs){
-            s += song + "\n";
-        }
-
-        return s;
-    }
+//    @Override
+//    public String toString() {
+//        String s = bandName + ": " + name + " [year=" + year + ", genres=" + genres + "]" +"\n";
+//        for(Song song : songs){
+//            s += song + "\n";
+//        }
+//
+//        return s;
+//    }
 
     /* Getters and Setters */
     public String getName() {
@@ -80,21 +77,12 @@ public class Album {
     }
 
 
-    public List<Song> getSongs() {
-        return songs;
+    public Band getBand() {
+        return band;
     }
 
-
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
-
-    public String getBandName() {
-        return bandName;
-    }
-
-    public void setBandName(String bandName) {
-        this.bandName = bandName;
+    public void setBandName(Band band) {
+        this.band = band;
     }
 
 	/* functions */
@@ -105,14 +93,14 @@ public class Album {
      * @param songName
      * @return song if found, null otherwise
      */
-    public Song getSongByName(String songName) {
-
-        for(Song song : this.songs){
-            if(song.getName().toLowerCase().replaceAll(" ", "_").equals(songName)){
-                return song;
-            }
-        }
-        return null;
-    }
+//    public Song getSongByName(String songName) {
+//
+//        for(Song song : this.songs){
+//            if(song.getName().toLowerCase().replaceAll(" ", "_").equals(songName)){
+//                return song;
+//            }
+//        }
+//        return null;
+//    }
 
 }
